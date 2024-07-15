@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Task;
 use App\Models\User;
+use Carbon\CarbonPeriod;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,8 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(5)->has(
-            Task::factory(10)
-        )->create();
+        $start = now()->startOfMonth()->subMonthNoOverflow();
+        $end = now();
+        $period = CarbonPeriod::create($start, '1 day', $end);
+        User::factory(5)->create()->each(function ($user) use ($period) {
+            foreach ($period as $date) {
+                Task::factory()->create(
+                    [
+                        'user_id' => $user->id,
+                        'created_at' => $date,
+                        'updated_at' => $date
+                    ]
+                );
+            }
+        });
     }
 }
