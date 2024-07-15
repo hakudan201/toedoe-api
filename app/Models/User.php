@@ -62,6 +62,7 @@ class User extends Authenticatable
             'lastmonth', 'last-month' => [Carbon::now()->startOfMonth()->subMonthsNoOverflow(), Carbon::now()->subMonthsNoOverflow()->endOfMonth()],
             default => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
         };
+
         return $this->tasks()
             ->whereBetween('created_at', [$start, $end])
             ->latest()
