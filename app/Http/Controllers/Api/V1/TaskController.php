@@ -15,7 +15,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return TaskResource::collection(Task::with('priority')->get());
+        return TaskResource::collection(Task::with('priority')
+            ->handleSort(request()->query('sort_by') ?? 'time')
+            ->get());
     }
 
     /**
@@ -34,6 +36,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $task->load('priority');
+
         return TaskResource::make($task);
     }
 
@@ -43,6 +47,7 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $task->update($request->validated());
+        $task->load('priority');
 
         return TaskResource::make($task);
     }
