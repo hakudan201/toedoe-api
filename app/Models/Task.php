@@ -22,7 +22,7 @@ class Task extends Model
         return $this->belongsTo(Priority::class);
     }
 
-    public function scopeHadnleSort(Builder $query, string $column)
+    public function scopeHandleSort(Builder $query, string $column)
     {
         $query->when($column === 'name', function ($query) {
             $query->orderBy('name');
