@@ -32,3 +32,6 @@
 - CRUD tasks (each user can only interacts with his/her own tasks)
 - complete tasks (change status)
 - view summaries by time period
+
+## Deployment
+Deployed with Nginx on Ubuntu using Digitalocean
